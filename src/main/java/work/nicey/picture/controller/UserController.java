@@ -1,15 +1,13 @@
 package work.nicey.picture.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import work.nicey.picture.common.BaseResponse;
 import work.nicey.picture.common.ResultUtils;
 import work.nicey.picture.exception.ErrorCode;
 import work.nicey.picture.exception.ThrowUtils;
 import work.nicey.picture.model.dto.user.UserLoginRequest;
 import work.nicey.picture.model.dto.user.UserRegisterRequest;
+import work.nicey.picture.model.entity.User;
 import work.nicey.picture.model.vo.LoginUserVO;
 import work.nicey.picture.service.UserService;
 
@@ -52,6 +50,11 @@ public class UserController {
         return ResultUtils.success(result);
     }
 
+    @GetMapping("/get/login")
+    public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
+        User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(userService.getLoginUserVO(loginUser));
+    }
 
 }
 
