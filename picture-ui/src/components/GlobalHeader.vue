@@ -4,8 +4,8 @@
       <a-col flex="200px">
         <RouterLink to="/">
           <div class="title-bar">
-            <img class="logo" src="../assets/logo.png" alt="logo" />
-            <div class="title">云图库</div>
+<!--            <img class="logo" src="../assets/logo.png" alt="logo" />-->
+            <div class="title">硬核云图库</div>
           </div>
         </RouterLink>
       </a-col>
@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import {useLoginUserStore} from "@/stores/useLoginUserStore.ts";
 import { h, ref } from 'vue'
-import { HomeOutlined } from '@ant-design/icons-vue'
+import { HomeOutlined, HolderOutlined } from '@ant-design/icons-vue'
 import { MenuProps } from 'ant-design-vue'
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -63,6 +63,7 @@ const items = ref<MenuProps['items']>([
   },
   {
     key: '/about',
+    icon: () => h(HolderOutlined),
     label: '关于',
     title: '关于',
   },
