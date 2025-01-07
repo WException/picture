@@ -21,8 +21,22 @@
       <a-col flex="120px">
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
-            {{ loginUserStore.loginUser.userName ?? '无名' }}
+            <a-dropdown>
+              <ASpace>
+                <a-avatar :src="loginUserStore.loginUser.userAvatar" />
+                {{ loginUserStore.loginUser.userName ?? '无名' }}
+              </ASpace>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item @click="doLogout">
+                    <LogoutOutlined />
+                    退出登录
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
           </div>
+
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>
           </div>
@@ -37,8 +51,9 @@
 import {useLoginUserStore} from "@/stores/useLoginUserStore.ts";
 import { h, ref } from 'vue'
 import { HomeOutlined, HolderOutlined } from '@ant-design/icons-vue'
-import { MenuProps } from 'ant-design-vue'
+import {MenuProps, message} from 'ant-design-vue'
 import { useRouter } from "vue-router";
+import {userLogoutUsingPost} from "@/api/userController.ts";
 const router = useRouter();
 const loginUserStore = useLoginUserStore()
 // 路由跳转事件
@@ -68,6 +83,22 @@ const items = ref<MenuProps['items']>([
     title: '关于',
   },
 ])
+
+// 用户注销
+const doLogout = async () => {
+  const res = await userLogoutUsingPost()
+  console.log(res)
+  if (res.data.code === 0) {
+    loginUserStore.setLoginUser({
+      userName: '未登录',
+    })
+    message.success('注销成功')
+    await router.push('/user/login')
+  } else {
+    message.error('注销失败，' + res.data.message)
+  }
+}
+
 </script>
 
 <style scoped>
