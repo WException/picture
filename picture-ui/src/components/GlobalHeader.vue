@@ -82,6 +82,18 @@ const items = ref<MenuProps['items']>([
     label: '关于',
     title: '关于',
   },
+  {
+    key: '/addPicture',
+    icon: () => h(HolderOutlined),
+    label: '上传图片',
+    title: '上传图片',
+  },
+  {
+    key: '/pictureManage',
+    icon: () => h(HolderOutlined),
+    label: '图片管理',
+    title: '图片管理',
+  },
 ])
 
 // 用户注销
