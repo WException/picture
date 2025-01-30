@@ -9,11 +9,6 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-    },
-    {
       path: '/user/login',
       name: '登录',
       component: () => import('../views/user/UserLogin.vue'),
@@ -26,7 +21,7 @@ const router = createRouter({
     {
       path: '/admin/userManage',
       name: '用户管理',
-      component: () => import('../views/admin/UserManage.vue'),
+      component: () => import('../views/user/UserManage.vue'),
     },
     {
       path: '/addPicture',

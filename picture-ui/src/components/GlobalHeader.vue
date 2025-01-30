@@ -77,10 +77,10 @@ const items = ref<MenuProps['items']>([
     title: '主页',
   },
   {
-    key: '/about',
+    key: '/admin/userManage',
     icon: () => h(HolderOutlined),
-    label: '关于',
-    title: '关于',
+    label: '用户管理',
+    title: '用户管理',
   },
   {
     key: '/addPicture',
