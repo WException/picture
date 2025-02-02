@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 import work.nicey.picture.model.dto.picture.PictureQueryRequest;
+import work.nicey.picture.model.dto.picture.PictureReviewRequest;
 import work.nicey.picture.model.dto.picture.PictureUploadRequest;
 import work.nicey.picture.model.entity.User;
 import work.nicey.picture.model.vo.PictureVO;
@@ -38,4 +39,20 @@ public interface PictureService extends IService<Picture> {
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
 
     void validPicture(Picture picture);
+
+    /**
+     * 图片审核
+     *
+     * @param pictureReviewRequest
+     * @param loginUser
+     */
+    void doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
+
+    /**
+     * 填充审核参数
+     *
+     * @param picture
+     * @param loginUser
+     */
+    void fillReviewParams(Picture picture, User loginUser);
 }
