@@ -17,6 +17,7 @@ import work.nicey.picture.model.dto.picture.PictureQueryRequest;
 import work.nicey.picture.model.dto.picture.PictureReviewRequest;
 import work.nicey.picture.model.dto.picture.PictureUploadRequest;
 import work.nicey.picture.model.entity.Picture;
+import work.nicey.picture.model.entity.Space;
 import work.nicey.picture.model.entity.User;
 import work.nicey.picture.model.enums.PictureReviewStatusEnum;
 import work.nicey.picture.model.vo.PictureVO;
@@ -24,6 +25,7 @@ import work.nicey.picture.model.vo.UserVO;
 import work.nicey.picture.service.PictureService;
 import work.nicey.picture.mapper.PictureMapper;
 import org.springframework.stereotype.Service;
+import work.nicey.picture.service.SpaceService;
 import work.nicey.picture.service.UserService;
 import work.nicey.picture.utils.AliOssUtil;
 
@@ -51,9 +53,23 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SpaceService spaceService;
+
     @Override
     public PictureVO uploadPicture(MultipartFile multipartFile, PictureUploadRequest pictureUploadRequest, User loginUser) throws IOException {
         ThrowUtils.throwIf(loginUser == null, ErrorCode.NO_AUTH_ERROR);
+        // 校验空间是否存在
+        Long spaceId = pictureUploadRequest.getSpaceId();
+        if (spaceId != null) {
+            Space space = spaceService.getById(spaceId);
+            ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR, "空间不存在");
+            // 必须空间创建人（管理员）才能上传
+            if (!loginUser.getId().equals(space.getUserId())) {
+                throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "没有空间权限");
+            }
+        }
+
         // 用于判断是新增还是更新图片
         Long pictureId = null;
         if (pictureUploadRequest != null) {
@@ -67,11 +83,30 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             if (!oldPicture.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
                 throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
             }
+            // 校验空间是否一致
+            // 没传 spaceId，则复用原有图片的 spaceId
+            if (spaceId == null) {
+                if (oldPicture.getSpaceId() != null) {
+                    spaceId = oldPicture.getSpaceId();
+                }
+            } else {
+                // 传了 spaceId，必须和原有图片一致
+                if (ObjUtil.notEqual(spaceId, oldPicture.getSpaceId())) {
+                    throw new BusinessException(ErrorCode.PARAMS_ERROR, "空间 id 不一致");
+                }
+            }
         }
+
 
         String fileName = getJoinDateAndName(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         // 按照用户 id 划分目录
-        String uploadPathPrefix = String.format("public/%s/%s", loginUser.getId(), fileName);
+        // 按照用户 id 划分目录 => 按照空间划分目录
+        String uploadPathPrefix;
+        if (spaceId == null) {
+            uploadPathPrefix = String.format("public/%s/%s", loginUser.getId(), fileName);
+        } else {
+            uploadPathPrefix = String.format("space/%s/%s", spaceId, fileName);
+        }
         // 得到信息，上传图片
         BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
         PutObjectResult putObjectResult = aliOssUtil.putObject(uploadPathPrefix, multipartFile);
@@ -80,6 +115,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         ThrowUtils.throwIf(null == bufferedImage, ErrorCode.PARAMS_ERROR, "文件不是图片格式");
         // 构造要入库的图片信息
         Picture picture = new Picture();
+        picture.setSpaceId(spaceId);
         picture.setUrl("https://work-nicey-picture.oss-cn-hangzhou.aliyuncs.com/" + uploadPathPrefix);
         picture.setName(fileName);
         picture.setPicSize(multipartFile.getSize());
