@@ -3,6 +3,7 @@ package work.nicey.picture.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
+import work.nicey.picture.model.dto.picture.PictureEditRequest;
 import work.nicey.picture.model.dto.picture.PictureQueryRequest;
 import work.nicey.picture.model.dto.picture.PictureReviewRequest;
 import work.nicey.picture.model.dto.picture.PictureUploadRequest;
@@ -55,4 +56,28 @@ public interface PictureService extends IService<Picture> {
      * @param loginUser
      */
     void fillReviewParams(Picture picture, User loginUser);
+
+    /**
+     * 删除图片
+     *
+     * @param pictureId
+     * @param loginUser
+     */
+    void deletePicture(long pictureId, User loginUser);
+
+    /**
+     * 校验空间图片的权限
+     *
+     * @param loginUser
+     * @param picture
+     */
+    void checkPictureAuth(User loginUser, Picture picture);
+
+    /**
+     * 编辑图片
+     *
+     * @param pictureEditRequest
+     * @param loginUser
+     */
+    void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
 }
