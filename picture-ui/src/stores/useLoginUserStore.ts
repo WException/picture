@@ -21,4 +21,15 @@ export const useLoginUserStore = defineStore("loginUser", () => {
   }
 
   return { loginUser, setLoginUser, fetchLoginUser };
+},
+{
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'loginUser',
+        storage: localStorage, //可以选择对应的存储形式（localStorage或者sessionStroage）
+      },
+    ],
+  },
 });
