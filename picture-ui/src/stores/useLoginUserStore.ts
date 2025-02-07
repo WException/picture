@@ -28,7 +28,7 @@ export const useLoginUserStore = defineStore("loginUser", () => {
     strategies: [
       {
         key: 'loginUser',
-        storage: localStorage, //可以选择对应的存储形式（localStorage或者sessionStroage）
+        storage: localStorage, //可以选择对应的存储形式（localStorage或者sessionStorage）
       },
     ],
   },
