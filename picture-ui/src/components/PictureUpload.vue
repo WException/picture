@@ -24,21 +24,22 @@ import { uploadPictureUsingPost } from '@/api/pictureController.ts'
 
 interface Props {
   picture?: API.PictureVO
+  spaceId?: number
   onSuccess?: (newPicture: API.PictureVO) => void
 }
 
 const props = defineProps<Props>()
 
-const loading = ref<boolean>(false)
-
 /**
- * 上传
+ * 上传图片
  * @param file
  */
 const handleUpload = async ({ file }: any) => {
   loading.value = true
   try {
-    const params = props.picture ? { id: props.picture.id } : {};
+    const params: API.PictureUploadRequest = props.picture ? { id: props.picture.id } : {}
+    params.spaceId = props.spaceId;
+    console.log('上传图片参数', params)
     const res = await uploadPictureUsingPost(params, {}, file)
     if (res.data.code === 0 && res.data.data) {
       message.success('图片上传成功')
@@ -48,12 +49,13 @@ const handleUpload = async ({ file }: any) => {
       message.error('图片上传失败，' + res.data.message)
     }
   } catch (error) {
-    message.error('图片上传失败')
-  } finally {
-    loading.value = false
+    console.error('图片上传失败', error)
+    message.error('图片上传失败，' + error.message)
   }
+  loading.value = false
 }
 
+const loading = ref<boolean>(false)
 
 /**
  * 上传前的校验

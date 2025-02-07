@@ -3,8 +3,11 @@
     <h2 style="margin-bottom: 16px">
       {{ route.query?.id ? '修改图片' : '创建图片' }}
     </h2>
+    <a-typography-paragraph v-if="spaceId" type="secondary">
+      保存至空间：<a :href="`/space/${spaceId}`" target="_blank">{{ spaceId }}</a>
+    </a-typography-paragraph>
     <!-- 图片上传组件 -->
-    <PictureUpload :picture="picture" :onSuccess="onSuccess" />
+    <PictureUpload :picture="picture" :spaceId="spaceId" :onSuccess="onSuccess" />
     <!-- 图片信息表单 -->
     <a-form
       v-if="picture"
@@ -50,7 +53,7 @@
 
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
-import { onMounted, reactive, ref } from 'vue'
+import {computed, onMounted, reactive, ref} from 'vue'
 import { message } from 'ant-design-vue'
 import {
   editPictureUsingPost,
@@ -73,6 +76,11 @@ const onSuccess = (newPicture: API.PictureVO) => {
 
 const router = useRouter()
 
+// 空间 id
+const spaceId = computed(() => {
+  return route.query?.spaceId
+})
+
 /**
  * 提交表单
  * @param values
@@ -85,6 +93,7 @@ const handleSubmit = async (values: any) => {
   const res = await editPictureUsingPost({
     id: pictureId,
     ...values,
+    spaceId: spaceId.value,
   })
   // 操作成功
   if (res.data.code === 0 && res.data.data) {
