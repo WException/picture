@@ -28,6 +28,12 @@
               </ASpace>
               <template #overlay>
                 <a-menu>
+                  <a-menu-item>
+                    <router-link to="/space/my_space">
+                      <UserOutlined />
+                      我的空间
+                    </router-link>
+                  </a-menu-item>
                   <a-menu-item @click="doLogout">
                     <LogoutOutlined />
                     退出登录
@@ -49,7 +55,7 @@
 </template>
 <script lang="ts" setup>
 import {useLoginUserStore} from "@/stores/useLoginUserStore.ts";
-import { h, ref } from 'vue'
+import {computed, h, ref} from 'vue'
 import { HomeOutlined, HolderOutlined } from '@ant-design/icons-vue'
 import {MenuProps, message} from 'ant-design-vue'
 import { useRouter } from "vue-router";
@@ -69,7 +75,7 @@ router.afterEach((to, from, next) => {
   current.value = [to.path];
 });
 
-const items = ref<MenuProps['items']>([
+const originItems = [
   {
     key: '/',
     icon: () => h(HomeOutlined),
@@ -77,7 +83,7 @@ const items = ref<MenuProps['items']>([
     title: '主页',
   },
   {
-    key: '/admin/userManage',
+    key: '/admin/user/userManage',
     icon: () => h(HolderOutlined),
     label: '用户管理',
     title: '用户管理',
@@ -89,12 +95,34 @@ const items = ref<MenuProps['items']>([
     title: '上传图片',
   },
   {
-    key: '/pictureManage',
+    key: '/admin/picture/pictureManage',
     icon: () => h(HolderOutlined),
     label: '图片管理',
     title: '图片管理',
   },
-])
+  {
+    key: '/admin/space/spaceManage',
+    label: '空间管理',
+    title: '空间管理',
+  },
+]
+
+// 根据权限过滤菜单项
+const filterMenus = (menus = [] as MenuProps['items']) => {
+  return menus?.filter((menu) => {
+    // 管理员才能看到 /admin 开头的菜单
+    if (menu?.key?.startsWith('/admin')) {
+      const loginUser = loginUserStore.loginUser
+      if (!loginUser || loginUser.userRole !== 'admin') {
+        return false
+      }
+    }
+    return true
+  })
+}
+
+// 展示在菜单的路由数组
+const items = computed(() => filterMenus(originItems))
 
 // 用户注销
 const doLogout = async () => {

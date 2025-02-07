@@ -19,7 +19,7 @@ const router = createRouter({
       component: () => import('../views/user/UserRegister.vue'),
     },
     {
-      path: '/admin/userManage',
+      path: '/admin/user/userManage',
       name: '用户管理',
       component: () => import('../views/user/UserManage.vue'),
     },
@@ -29,7 +29,7 @@ const router = createRouter({
       component: () => import('../views/picture/addPicture.vue'),
     },
     {
-      path: '/pictureManage',
+      path: '/admin/picture/pictureManage',
       name: '图片管理',
       component: () => import('../views/picture/pictureManage.vue'),
     },
@@ -38,7 +38,31 @@ const router = createRouter({
       name: '图片详情',
       component: () => import('../views/picture/PictureDetail.vue'),
       props: true,
-    }
+    },
+    {
+      path: '/admin/space/spaceManage',
+      name: '空间管理',
+      component: () => import('../views/space/SpaceManage.vue'),
+      props: true,
+    },
+    {
+      path: '/add_space',
+      name: '创建空间',
+      component: () => import('../views/space/AddSpace.vue'),
+      props: true,
+    },
+    {
+      path: '/space/my_space',
+      name: '我的空间',
+      component: () => import('../views/space/MySpace.vue'),
+      props: true,
+    },
+    {
+      path: '/space/:id',
+      name: '空间详情',
+      component: () => import('../views/space/SpaceDetail.vue'),
+      props: true,
+    },
 
   ],
 })
