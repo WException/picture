@@ -32,6 +32,7 @@ myAxios.interceptors.response.use(
         !window.location.pathname.includes('/user/login')
       ) {
         message.warning('请先登录')
+        localStorage.removeItem('loginUser')
         window.location.href = `/user/login?redirect=${window.location.href}`
       }
     }
