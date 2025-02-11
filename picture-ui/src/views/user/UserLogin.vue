@@ -34,7 +34,7 @@ const handleSubmit = async (values: any) => {
 </script>
 
 <template>
-  <div id="userLoginPage">
+  <div id="userLogin">
     <h2 class="title">硬核云图库 - 用户登录</h2>
     <div class="desc">企业级智能协同云图库</div>
     <a-form :model="formState" name="basic" autocomplete="off" @finish="handleSubmit">
@@ -63,7 +63,7 @@ const handleSubmit = async (values: any) => {
 
 
 <style scoped>
-#userLoginPage {
+#userLogin {
   max-width: 360px;
   margin: 100px auto;
 }
