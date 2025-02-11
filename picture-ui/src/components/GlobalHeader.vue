@@ -23,7 +23,7 @@
           <div v-if="loginUserStore.loginUser.id">
             <a-dropdown>
               <ASpace>
-                <a-avatar :src="loginUserStore.loginUser.userAvatar" />
+                <a-avatar :src="loginUserStore.loginUser.userAvatar ?? defaultAvatar" />
                 {{ loginUserStore.loginUser.userName ?? '无名' }}
               </ASpace>
               <template #overlay>
@@ -68,6 +68,9 @@ const doMenuClick = ({ key }: { key: string }) => {
     path: key,
   });
 };
+
+// 默认头像
+const defaultAvatar = 'https://pic1.imgdb.cn/item/67ab59d6d0e0a243d4fe6b1f.png'
 
 const current = ref<string[]>(['home'])
 // 监听路由变化，更新当前选中菜单
