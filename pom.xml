@@ -104,7 +104,7 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>work.nicey.picture.PictureApplication</mainClass>
-                    <skip>true</skip>
+<!--                    <skip>true</skip>-->
                 </configuration>
                 <executions>
                     <execution>
