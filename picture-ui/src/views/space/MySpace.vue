@@ -35,7 +35,7 @@ const checkUserSpace = async () => {
       router.replace(`/space/${space.id}`)
     } else {
       // 如果没有，则跳转到创建空间页面
-      router.replace('/add_space')
+      router.replace('/addSpace')
       message.warn('请先创建空间')
     }
   } else {

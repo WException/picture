@@ -46,13 +46,13 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/add_space',
+      path: '/addSpace',
       name: '创建空间',
       component: () => import('../views/space/AddSpace.vue'),
       props: true,
     },
     {
-      path: '/space/my_space',
+      path: '/space/mySpace',
       name: '我的空间',
       component: () => import('../views/space/MySpace.vue'),
       props: true,
