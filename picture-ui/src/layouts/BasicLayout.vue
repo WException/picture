@@ -13,8 +13,8 @@
 
       <a-layout-footer>
         <a-layout-footer class="footer">
-          <a href="https://www.nicey.work" target="_blank">
-            协作云图库 by 尼丝
+          <a href="https://beian.miit.gov.cn" target="_blank">
+            云慧图灵 豫ICP备2024059356号-1
           </a>
         </a-layout-footer>
       </a-layout-footer>
