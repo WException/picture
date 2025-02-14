@@ -31,7 +31,7 @@ const menuItems = [
     label: '公共图库',
   },
   {
-    key: '/space/my_space',
+    key: '/space/mySpace',
     label: '我的空间',
     icon: () => h(UserOutlined),
   },
