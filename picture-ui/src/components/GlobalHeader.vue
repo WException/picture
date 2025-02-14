@@ -131,7 +131,6 @@ const items = computed(() => filterMenus(originItems))
 const doLogout = async () => {
   const res = await userLogoutUsingPost()
   if (res.data.code === 0) {
-    localStorage.removeItem('loginUser')
     loginUserStore.setLoginUser({
       userName: '未登录',
     })
@@ -140,6 +139,7 @@ const doLogout = async () => {
   } else {
     message.error('注销失败，' + res.data.message)
   }
+  localStorage.removeItem('loginUser')
 }
 
 </script>
