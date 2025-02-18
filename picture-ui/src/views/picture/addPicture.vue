@@ -8,6 +8,18 @@
     </a-typography-paragraph>
     <!-- 图片上传组件 -->
     <PictureUpload :picture="picture" :spaceId="spaceId" :onSuccess="onSuccess" />
+    <!-- 图片编辑 -->
+    <div v-if="picture" class="edit-bar">
+      <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+      <ImageCropper
+        ref="imageCropperRef"
+        :imageUrl="picture?.url"
+        :picture="picture"
+        :spaceId="spaceId"
+        :onSuccess="onCropSuccess"
+      />
+    </div>
+
     <!-- 图片信息表单 -->
     <a-form
       v-if="picture"
@@ -53,7 +65,7 @@
 
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
-import {computed, onMounted, reactive, ref} from 'vue'
+import {computed, h, onMounted, reactive, ref} from 'vue'
 import { message } from 'ant-design-vue'
 import {
   editPictureUsingPost,
@@ -61,6 +73,8 @@ import {
   listPictureTagCategoryUsingGet,
 } from '@/api/pictureController.ts'
 import { useRoute, useRouter } from 'vue-router'
+import {EditOutlined} from "@ant-design/icons-vue";
+import ImageCropper from "@/components/ImageCropper.vue";
 
 const picture = ref<API.PictureVO>()
 const pictureForm = reactive<API.PictureEditRequest>({})
@@ -157,6 +171,21 @@ const getOldPicture = async () => {
       pictureForm.tags = data.tags
     }
   }
+}
+
+// ----- 图片编辑器引用 ------
+const imageCropperRef = ref()
+
+// 编辑图片
+const doEditPicture = () => {
+  if (imageCropperRef.value) {
+    imageCropperRef.value.openModal()
+  }
+}
+
+// 编辑成功事件
+const onCropSuccess = (newPicture: API.PictureVO) => {
+  picture.value = newPicture
 }
 
 onMounted(() => {
