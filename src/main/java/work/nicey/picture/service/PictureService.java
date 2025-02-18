@@ -3,10 +3,8 @@ package work.nicey.picture.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
-import work.nicey.picture.model.dto.picture.PictureEditRequest;
-import work.nicey.picture.model.dto.picture.PictureQueryRequest;
-import work.nicey.picture.model.dto.picture.PictureReviewRequest;
-import work.nicey.picture.model.dto.picture.PictureUploadRequest;
+import work.nicey.picture.api.aliyun.model.CreateOutPaintingTaskResponse;
+import work.nicey.picture.model.dto.picture.*;
 import work.nicey.picture.model.entity.User;
 import work.nicey.picture.model.vo.PictureVO;
 import work.nicey.picture.model.entity.Picture;
@@ -30,6 +28,18 @@ public interface PictureService extends IService<Picture> {
      * @return
      */
     PictureVO uploadPicture(MultipartFile multipartFile,
+                            PictureUploadRequest pictureUploadRequest,
+                            User loginUser) throws IOException;
+
+    /**
+     * 上传图片 (根据url)
+     *
+     * @param fileUrl
+     * @param pictureUploadRequest
+     * @param loginUser
+     * @return
+     */
+    PictureVO uploadPictureByUrl(String fileUrl,
                             PictureUploadRequest pictureUploadRequest,
                             User loginUser) throws IOException;
 
@@ -80,4 +90,13 @@ public interface PictureService extends IService<Picture> {
      * @param loginUser
      */
     void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
+
+    /**
+     * 创建扩图任务
+     *
+     * @param createPictureOutPaintingTaskRequest
+     * @param loginUser
+     */
+    CreateOutPaintingTaskResponse createPictureOutPaintingTask(CreatePictureOutPaintingTaskRequest createPictureOutPaintingTaskRequest, User loginUser);
+
 }
