@@ -4,6 +4,12 @@
       <h2>空间管理</h2>
       <a-space>
         <a-button type="primary" href="/addSpace" target="_blank">+ 创建空间</a-button>
+        <a-button type="primary" ghost href="/space/analyze?queryPublic=1" target="_blank">
+          分析公共图库
+        </a-button>
+        <a-button type="primary" ghost href="/space/analyze?queryAll=1" target="_blank">
+          分析全空间
+        </a-button>
       </a-space>
     </a-flex>
     <div style="margin-bottom: 16px" />
@@ -54,6 +60,9 @@
           <a-space wrap>
             <a-button type="link" :href="`/addSpace?id=${record.id}`" target="_blank">
               编辑
+            </a-button>
+            <a-button type="link" :href="`/space/analyze?spaceId=${record.id}`" target="_blank">
+              分析
             </a-button>
             <a-button danger @click="doDelete(record.id)">删除</a-button>
           </a-space>

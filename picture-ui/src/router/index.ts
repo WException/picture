@@ -63,7 +63,12 @@ const router = createRouter({
       component: () => import('../views/space/SpaceDetail.vue'),
       props: true,
     },
-
+    {
+      path: '/space/analyze',
+      name: '空间分析',
+      component: () => import('../views/space/SpaceAnalyze.vue'),
+      props: true,
+    }
   ],
 })
 

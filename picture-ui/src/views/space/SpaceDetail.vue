@@ -7,6 +7,14 @@
         <a-button type="primary" :href="`/addPicture?spaceId=${id}`" target="_blank">
           + 创建图片
         </a-button>
+        <a-button
+          type="primary"
+          ghost
+          :href="`/space/analyze?spaceId=${id}`"
+          target="_blank"
+        >
+          空间分析
+        </a-button>
         <a-tooltip
           :title="`占用空间 ${formatSize(space.totalSize)} / ${formatSize(space.maxSize)}`"
         >
