@@ -1,5 +1,12 @@
 <template>
   <div id="pictureManage">
+    <a-flex justify="space-between">
+      <h2>图片管理</h2>
+      <a-space>
+        <a-button type="primary" href="/addPicture" target="_blank">+ 创建图片</a-button>
+        <a-button type="primary" href="/addPicture/batch" target="_blank" ghost>+ 批量创建图片</a-button>
+      </a-space>
+    </a-flex>
     <!-- 搜索表单 -->
     <a-form layout="inline" :model="searchParams" @finish="doSearch">
       <a-form-item label="关键词">

@@ -19,6 +19,19 @@ import java.io.IOException;
 * @createDate 2025-01-11 16:12:05
 */
 public interface PictureService extends IService<Picture> {
+
+    /**
+     * 批量抓取和创建图片
+     *
+     * @param pictureUploadByBatchRequest
+     * @param loginUser
+     * @return 成功创建的图片数
+     */
+    Integer uploadPictureByBatch(
+            PictureUploadByBatchRequest pictureUploadByBatchRequest,
+            User loginUser
+    );
+
     /**
      * 上传图片
      *

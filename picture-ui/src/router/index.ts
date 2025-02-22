@@ -68,6 +68,11 @@ const router = createRouter({
       name: '空间分析',
       component: () => import('../views/space/SpaceAnalyze.vue'),
       props: true,
+    },
+    {
+      path: '/addPicture/batch',
+      name: '批量创建图片',
+      component: () => import('../views/picture/AddPictureBatch.vue'),
     }
   ],
 })
